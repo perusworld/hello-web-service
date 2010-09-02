@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+	<bean id="hello" class="com.yosanai.tutorial.ws.hellowebservice.HelloWorldImpl" />
+
+	<jaxws:endpoint id="helloWorld" implementor="#hello"
+		address="/HelloWorld" />
+
+	<bean id="client" class="com.yosanai.tutorial.ws.hellowebservice.HelloWorld"
+		factory-bean="clientFactory" factory-method="create" />
+
+	<bean id="clientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+		<property name="serviceClass" value="com.yosanai.tutorial.ws.hellowebservice.HelloWorld" />
+		<property name="address" value="http://localhost/HelloWorld" />
+	</bean>
+</beans>
