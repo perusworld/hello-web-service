@@ -8,15 +8,34 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
 	<bean id="hello" class="com.yosanai.tutorial.ws.hellowebservice.HelloWorldImpl" />
+	<bean id="fileMgmt"
+		class="com.yosanai.tutorial.ws.hellowebservice.FileManagementImpl" />
 
 	<jaxws:endpoint id="helloWorld" implementor="#hello"
 		address="/HelloWorld" />
 
-	<bean id="client" class="com.yosanai.tutorial.ws.hellowebservice.HelloWorld"
-		factory-bean="clientFactory" factory-method="create" />
+	<jaxws:endpoint id="fileManagement" implementor="#fileMgmt"
+		address="/FileManagement">
+		<jaxws:properties>
+			<entry key="mtom-enabled" value="true" />
+		</jaxws:properties>
+	</jaxws:endpoint>
 
-	<bean id="clientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
-		<property name="serviceClass" value="com.yosanai.tutorial.ws.hellowebservice.HelloWorld" />
+	<bean id="helloClient" class="com.yosanai.tutorial.ws.hellowebservice.HelloWorld"
+		factory-bean="helloClientFactory" factory-method="create" />
+
+	<bean id="helloClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+		<property name="serviceClass"
+			value="com.yosanai.tutorial.ws.hellowebservice.HelloWorld" />
 		<property name="address" value="http://localhost/HelloWorld" />
+	</bean>
+
+	<bean id="fileClient" class="com.yosanai.tutorial.ws.hellowebservice.FileManagement"
+		factory-bean="fileClientFactory" factory-method="create" />
+
+	<bean id="fileClientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+		<property name="serviceClass"
+			value="com.yosanai.tutorial.ws.hellowebservice.FileManagement" />
+		<property name="address" value="http://localhost/FileManagement" />
 	</bean>
 </beans>

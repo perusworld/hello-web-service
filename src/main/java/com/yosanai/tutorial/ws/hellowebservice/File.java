@@ -24,16 +24,59 @@
  */
 package com.yosanai.tutorial.ws.hellowebservice;
 
-import javax.jws.WebService;
+import javax.activation.DataHandler;
+import javax.xml.bind.annotation.XmlMimeType;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * @author Saravana P Shanmugam
  * 
  */
-@WebService(endpointInterface = "com.yosanai.tutorial.ws.hellowebservice.HelloWorld")
-public class HelloWorldImpl implements HelloWorld {
+@XmlType
+public class File {
 
-	public String sayHi(String text) {
-		return "Hello " + text;
+	@XmlTransient
+	protected String fileName;
+
+	@XmlTransient
+	protected DataHandler fileContent;
+
+	/**
+	 * 
+	 */
+	public File() {
 	}
+
+	/**
+	 * @return the fileName
+	 */
+	public String getFileName() {
+		return fileName;
+	}
+
+	/**
+	 * @param fileName
+	 *            the fileName to set
+	 */
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	/**
+	 * @return the fileContent
+	 */
+	@XmlMimeType("application/octet-stream")
+	public DataHandler getFileContent() {
+		return fileContent;
+	}
+
+	/**
+	 * @param fileContent
+	 *            the fileContent to set
+	 */
+	public void setFileContent(DataHandler fileContent) {
+		this.fileContent = fileContent;
+	}
+
 }

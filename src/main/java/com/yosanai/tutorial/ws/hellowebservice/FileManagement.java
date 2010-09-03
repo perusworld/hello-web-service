@@ -30,10 +30,9 @@ import javax.jws.WebService;
  * @author Saravana P Shanmugam
  * 
  */
-@WebService(endpointInterface = "com.yosanai.tutorial.ws.hellowebservice.HelloWorld")
-public class HelloWorldImpl implements HelloWorld {
+@WebService
+public interface FileManagement {
 
-	public String sayHi(String text) {
-		return "Hello " + text;
-	}
+	public String upload(File file) throws Exception;
+
 }

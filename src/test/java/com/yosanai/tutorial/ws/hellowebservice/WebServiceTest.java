@@ -24,16 +24,47 @@
  */
 package com.yosanai.tutorial.ws.hellowebservice;
 
-import javax.jws.WebService;
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * @author Saravana P Shanmugam
  * 
  */
-@WebService(endpointInterface = "com.yosanai.tutorial.ws.hellowebservice.HelloWorld")
-public class HelloWorldImpl implements HelloWorld {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:/application-context.xml" })
+public class WebServiceTest {
 
-	public String sayHi(String text) {
-		return "Hello " + text;
+	@Autowired
+	@Qualifier("helloClient")
+	protected HelloWorld helloWorld;
+
+	@Autowired
+	@Qualifier("fileClient")
+	protected FileManagement fileManagement;
+
+	@Test
+	public void callSayHi() throws Exception {
+		System.out.println(helloWorld.sayHi("HelloWorldTest"));
 	}
+
+	@Test
+	public void callUpload() throws Exception {
+		File file = new File();
+		java.io.File fileToUpload = new java.io.File(
+				"src/test/resources/icons.jpg");
+		file.setFileName(fileToUpload.getName());
+		FileDataSource fileDataSource = new FileDataSource(fileToUpload);
+		DataHandler fileContent = new DataHandler(fileDataSource);
+		file.setFileContent(fileContent);
+		System.out.println(fileManagement.upload(file));
+	}
+
 }

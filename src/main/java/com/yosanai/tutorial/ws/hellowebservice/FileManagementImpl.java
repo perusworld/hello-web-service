@@ -24,28 +24,34 @@
  */
 package com.yosanai.tutorial.ws.hellowebservice;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import java.io.InputStream;
+
+import javax.jws.WebService;
+
+import org.apache.cxf.helpers.IOUtils;
 
 /**
  * @author Saravana P Shanmugam
  * 
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/application-context.xml" })
-public class HelloWorldTest {
+@WebService(endpointInterface = "com.yosanai.tutorial.ws.hellowebservice.FileManagement")
+public class FileManagementImpl implements FileManagement {
 
-	@Autowired
-	@Qualifier("client")
-	protected HelloWorld helloWorld;
-
-	@Test
-	public void callWebService() throws Exception {
-		System.out.println(helloWorld.sayHi("HelloWorldTest"));
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.yosanai.tutorial.ws.hellowebservice.FileManagement#upload(com.yosanai
+	 * .tutorial.ws.hellowebservice.File)
+	 */
+	@Override
+	public String upload(File file) throws Exception {
+		String ret = null;
+		InputStream ins = file.getFileContent().getInputStream();
+		byte[] bytes = IOUtils.readBytesFromStream(ins);
+		ret = "Read " + bytes.length + " bytes of data from the uploaded file "
+				+ file.getFileName();
+		return ret;
 	}
 
 }
