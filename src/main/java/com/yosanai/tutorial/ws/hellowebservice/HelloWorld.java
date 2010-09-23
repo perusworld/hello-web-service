@@ -24,6 +24,7 @@
  */
 package com.yosanai.tutorial.ws.hellowebservice;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 
 /**
@@ -32,5 +33,5 @@ import javax.jws.WebService;
  */
 @WebService
 public interface HelloWorld {
-	String sayHi(String text);
+    String sayHi(@WebParam(name = "message") String text);
 }

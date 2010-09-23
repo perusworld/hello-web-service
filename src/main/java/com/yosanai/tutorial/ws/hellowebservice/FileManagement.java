@@ -24,6 +24,7 @@
  */
 package com.yosanai.tutorial.ws.hellowebservice;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 
 /**
@@ -33,6 +34,6 @@ import javax.jws.WebService;
 @WebService
 public interface FileManagement {
 
-	public String upload(File file) throws Exception;
+    public String upload(@WebParam(name = "file") File file) throws Exception;
 
 }
